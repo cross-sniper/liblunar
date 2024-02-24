@@ -1,0 +1,22 @@
+flags = "-Os -O3".split()
+source_raylua = "src/main.cpp"
+libs_raylua = ["-llua5.4", "-lraylib"]
+output_raylua = "raylua"
+compiler_flags = getFlag("compiler", "g++")
+run(compiler_flags, source_raylua, "-o", output_raylua, *libs_raylua, *flags)
+
+source_raylua = "src/raylib/raylua.cpp"
+output_raylua = "raylua.so"
+libs_raylua = [
+    "-fPIC",
+    "-shared",
+    "-o",
+    output_raylua,
+    *flags,
+    "-lc",
+    "-llua5.4",
+    "-lraylib",
+]
+
+compiler_flags = getFlag("compiler", "g++")
+run(compiler_flags, source_raylua, *libs_raylua, *flags)
