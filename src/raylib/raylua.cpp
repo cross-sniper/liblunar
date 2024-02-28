@@ -1,6 +1,6 @@
-#include <lua5.4/lua.h>
+#include <lua.h>
 #include <raylib.h>
-#include <lua5.4/lua.hpp>
+#include <lua.hpp>
 #include "raylib_wrapper.cpp"
 #include <iostream>
 

@@ -1,6 +1,5 @@
 #include <cstdlib>
-#include <lua5.4/lauxlib.h>
-#include <lua5.4/lua.hpp>
+#include <lua.hpp>
 #include <raylib.h>
 
 //todo: a function to return a value from global(like a background color) or a default value

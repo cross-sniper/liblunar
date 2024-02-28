@@ -1,5 +1,5 @@
 #include <raylib.h>
-#include <lua5.4/lua.hpp>
+#include <lua.hpp>
 #include <cstring>
 static void lua_pushColor(lua_State *L, Color color, const char *name) {
   lua_newtable(L);

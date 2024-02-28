@@ -1,4 +1,4 @@
-#include <lua5.4/lua.hpp>
+#include <lua.hpp>
 
 #include <raylib.h>
 // Helper function to add Raylib key constants to the luar table

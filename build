@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+import os
+import re
+import sys
+import argparse
+
+parser = argparse.ArgumentParser()
+
+with open("build.sw") as f:
+    code = f.read()
+
+lines = code.split("\n")
+env = {}
+libs = {}
+
+def getLib(name):
+    command = f"pkg-config --cflags --libs {name}"
+    if name in libs:
+        return libs.get(name)
+    else:
+        f = os.popen(command).read()
+        libs[name] = f
+        return f
+
+def parse(line, n):
+    # Handle user flags
+    user_flags = {}
+    matches = list(re.finditer(r"<<(\w+)\s*,\s*([^>]+)>>", line))
+    if matches:
+        for match in matches:
+            flag_name, default_value = match.group(1), match.group(2)
+            parser.add_argument(f"--{flag_name}", default=default_value, required=False)
+
+        args, _ = parser.parse_known_args()
+        user_flags = vars(args)
+
+        for match in matches:
+            flag_name = match.group(1)
+            line = line.replace(match.group(0), str(user_flags.get(flag_name, default_value)))
+
+    for match in re.finditer(r"\@(\w+)", line):
+        variable_name = match.group(1)
+        line = line.replace(match.group(0), getLib(variable_name))
+
+    if re.match(r"(.*)\s*=\s*(.*)", line):
+        var, val = map(str.strip, line.split("=", maxsplit=1))
+        env[var] = val.replace("\n", ' ')
+
+    for match in re.finditer(r"\$(\w+)", line):
+        variable_name = match.group(1)
+        variable_value = env.get(variable_name, None)
+        if variable_value is not None:
+            line = line.replace(match.group(0), variable_value)
+
+    if re.match(r"run\s+(.*)", line):
+        # Handle run command
+        command = re.match(r"run\s+(.*)", line).group(1).strip()
+        print(f"{n}: {command}")
+        if os.system(command):
+            print("an error occurred, exiting...")
+            sys.exit(1)
+
+for n, line in enumerate(lines):
+    parse(line, n)

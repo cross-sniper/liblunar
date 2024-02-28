@@ -1,4 +1,4 @@
-#include <lua5.4/lua.hpp>
+#include <lua.hpp>
 #include "raylib_colors.cpp"
 
 #include <raylib.h>
@@ -58,8 +58,9 @@ static int lua_create_window(lua_State *L) {
   int width = luaL_checkinteger(L, 1);
   int height = luaL_checkinteger(L, 2);
   const char *title = luaL_checkstring(L, 3);
-
+  #ifdef no_debug
   SetTraceLogLevel(LOG_NONE);
+  #endif
   InitWindow(width, height, title);
   return 0; // No return values
 }
