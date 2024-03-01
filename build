@@ -52,6 +52,10 @@ def parse(line, n):
         if variable_value is not None:
             line = line.replace(match.group(0), variable_value)
 
+    if re.match(r"echo\s+(.*)", line):
+        string = re.match(r"echo\s+(.*)",line).group(1).strip()
+        print(f"{n}: {string}")
+
     if re.match(r"run\s+(.*)", line):
         # Handle run command
         command = re.match(r"run\s+(.*)", line).group(1).strip()

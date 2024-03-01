@@ -1,3 +1,4 @@
+#pragma once
 #include <raylib.h>
 #include <lua.hpp>
 #include <cstring>

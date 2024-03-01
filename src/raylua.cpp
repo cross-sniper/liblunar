@@ -2,9 +2,14 @@
 #include <lua.hpp>
 #include <raylib.h>
 
+
 //todo: a function to return a value from global(like a background color) or a default value
 //preferably made in lua, if possible
 
+/*
+runs lua code, and checks for errors
+
+ */
 void dostring(lua_State *L, const char *string){
     if(luaL_dostring(L, string) != LUA_OK){
         luaL_dostring(L, "raylua.CloseWindow()");
@@ -14,7 +19,7 @@ void dostring(lua_State *L, const char *string){
         exit(1);
     }
 }
-
+//main function
 int main() {
     // Create a new Lua state
     lua_State *L = luaL_newstate();
