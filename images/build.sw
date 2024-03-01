@@ -3,4 +3,4 @@ flags = -Os -O3 -shared
 raylib_path = ../raylib/build/raylib
 compiler = <<compiler, g++>>
 
-run $compiler loader.cpp -o ../raylua-images.so $libs $flags -fPIC -L$raylib_path
+run $compiler lua-image-module.cpp -o ../raylua-images.so $libs $flags -fPIC -L$raylib_path

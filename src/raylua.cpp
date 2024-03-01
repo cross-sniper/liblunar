@@ -34,6 +34,7 @@ int main() {
     // load raylua.so and initialize the window with a width of 800 and height of 600
 
     dostring(L, "raylua = require('raylua')");
+    dostring(L, "rayimg = require('raylua')");
     // Load and execute the Lua script
     if (luaL_dofile(L, "main.lua") != LUA_OK) {
         // Handle error if Lua script loading fails

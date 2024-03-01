@@ -5,9 +5,6 @@ function setup()
 	raylua.ClearBackground(raylua.BLACK)
 	raylua.DrawText("loading", 0,0,30,raylua.WHITE)
 	raylua.EndDrawing()
-	img = require("raylua-images")
-	print(img)
-	e = img.LoadImage("bg.png") -- erros out
 
 
 	raylua.SetWindowTitle("This is a test")
