@@ -3,15 +3,25 @@
 #include <lua.h>
 #include <lua.hpp>
 #include <raylib.h>
+#include <iostream>
 
 typedef struct Img
 {
 	Texture2D texture;
 	Image image;
 	Img(const char* file){
-		this->image = LoadImage(file);
-		this->texture = LoadTextureFromImage(image);
+	    this->image = LoadImage(file);
+	    if (IsImageReady(this->image)){
+	        std::cout << "loading image texture" << std::endl;
+	        std::cout << "Image format: " << this->image.format << std::endl;
+	        std::cout << "Image width: " << this->image.width << std::endl;
+	        std::cout << "Image height: " << this->image.height << std::endl;
+
+	        this->texture = LoadTextureFromImage(this->image); // crash
+	        std::cout << "Texture ID: " << this->texture.id << std::endl;
+	    }
 	}
+
 
 	~Img(){
 		UnloadTexture(this->texture);
@@ -38,14 +48,23 @@ void RegisterImgFunctions(lua_State* L) {
     luaL_setfuncs(L, imgMethods, 0);
 }
 
-// Lua function to create and load an Img object
 int LuaLoadImage(lua_State *L) {
     const char* file = luaL_checkstring(L, 1);
+    printf("Loading image: %s\n", file);
     Img* img = new Img(file);
     Img** imgPtr = (Img**)lua_newuserdata(L, sizeof(Img*));
     *imgPtr = img;
 
-    lua_pushlightuserdata(L, imgPtr);
+    // Set metatable for the userdata
+    luaL_getmetatable(L, "ImgMeta");
+    lua_setmetatable(L, -2);
+
+    // Check for errors and push an error message if necessary
+    if (!img->texture.id || !img->image.data) {
+        delete img;
+        return luaL_error(L, "Failed to load image from file: %s", file);
+    }
+	lua_pushlightuserdata(L, *imgPtr);
 
     return 1; // Return the userdata
 }

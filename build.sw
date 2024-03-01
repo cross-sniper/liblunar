@@ -22,4 +22,4 @@ flags = -Os -O3 -fPIC -shared
 source = src/raylib/raylua.cpp
 output = raylua.so
 run $compiler $source -o $output $libs $flags -L$raylib_path
-run cd images; build
+run cd images; python ../build

@@ -7,8 +7,8 @@ function setup()
 	raylua.EndDrawing()
 	img = require("raylua-images")
 	print(img)
-	e = img.LoadImage("bg.png")
-	print(e)
+	e = img.LoadImage("bg.png") -- erros out
+
 
 	raylua.SetWindowTitle("This is a test")
 

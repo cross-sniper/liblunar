@@ -51,6 +51,9 @@ def parse(line, n):
         variable_value = env.get(variable_name, None)
         if variable_value is not None:
             line = line.replace(match.group(0), variable_value)
+        else:
+            print(f"{n}: not found: {variable_name}")
+            exit(1)
 
     if re.match(r"echo\s+(.*)", line):
         string = re.match(r"echo\s+(.*)",line).group(1).strip()
