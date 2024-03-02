@@ -12,6 +12,7 @@ static luaL_Reg funcs[] = {
 	{ "NewColor", lua_create_color },
 	{ "SetWindowTitle", change_title},
 	{ "CloseWindow", lua_close_window },
+	{ "DrawCircle",lua_draw_circle},
 	{ "DrawRectangle", lua_draw_rectangle },
 	{ "ClearBackground", lua_fill_bg },
 	{ "BeginDrawing", lua_start_drawing },
@@ -23,6 +24,8 @@ static luaL_Reg funcs[] = {
 	{ "GetFPS", lua_get_fps },
 	{ "GetFrameTime", lua_get_frame_time },
 	{ "GetMousePosition", lua_get_mouse_position },
+	{ "GetScreenWidth", lua_get_screen_width },
+	{ "GetScreenHeight", lua_get_screen_height },
 	{ NULL,NULL}
 };
 

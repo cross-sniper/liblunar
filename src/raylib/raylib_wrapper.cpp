@@ -1,3 +1,4 @@
+#include <lua.h>
 #include <lua.hpp>
 #include "raylib_colors.cpp"
 
@@ -17,7 +18,14 @@ static int lua_draw_fps(lua_State *L) {
   DrawFPS(x, y);
   return 0;
 }
-
+static int lua_get_screen_width(lua_State*L){
+  lua_pushnumber(L, GetScreenWidth());
+  return 1;
+}
+static int lua_get_screen_height(lua_State*L){
+  lua_pushnumber(L, GetScreenHeight());
+  return 1;
+}
 static int lua_get_time(lua_State *L) {
   lua_pushinteger(L, GetTime());
   return 1;
@@ -53,6 +61,16 @@ static int lua_draw_rectangle(lua_State *L) {
   return 0;
 }
 
+static int lua_draw_circle(lua_State *L) {
+  int posX = luaL_checkinteger(L, 1);
+  int posY = luaL_checkinteger(L, 2);
+  int radius = luaL_checkinteger(L, 3);
+  Color color;
+  color = lua_getColor(L, 4);
+
+  DrawCircle(posX, posY, radius, color);
+  return 0;
+}
 // Wrapper function to create a window
 static int lua_create_window(lua_State *L) {
   int width = luaL_checkinteger(L, 1);
